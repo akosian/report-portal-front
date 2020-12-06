@@ -1,14 +1,18 @@
 import React from 'react';
 import {Route} from "react-router-dom";
 import css from './Content.module.css'
-import UsersContainer from "./users/UsersContainer";
-import TestRunsContainer from "./testruns/TestRunsContainer";
 const TestsContainer = React.lazy(() => import("./tests/TestsContainer"))
+const UsersContainer = React.lazy(() => import("./users/UsersContainer"))
+const TestRunsContainer = React.lazy(() => import("./testruns/TestRunsContainer"))
 
 const Content = () => {
     return (<div className={css.content}>
-        <Route path={'/users'} render={() => <UsersContainer/>}/>
-        <Route path={'/testruns'} render={() => <TestRunsContainer/>}/>
+        <React.Suspense fallback={<div>Loading...</div>}>
+            <Route path={'/users'} render={() => <UsersContainer/>}/>
+        </React.Suspense>
+        <React.Suspense fallback={<div>Loading...</div>}>
+            <Route path={'/testruns'} render={() => <TestRunsContainer/>}/>
+        </React.Suspense>
         <React.Suspense fallback={<div>Loading...</div>}>
             <Route path={'/tests'} render={() => <TestsContainer/>}/>
         </React.Suspense>
