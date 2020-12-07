@@ -3,30 +3,35 @@ import {connect} from "react-redux";
 import {getTestRunsSelector} from "../../../redux/content/testruns/TestRunsSelectors";
 import TestRunItem from "./testrunscontent/TestRunsItem";
 import {reset} from "redux-form";
-import {AddTestRunAC, GetTestRunsAC} from "../../../redux/content/testruns/TestRunsActionCreator";
 import NewTestRunForm from "./newtestrunform/NewTestRunForm";
+import {addTestRunThunkCreator, getTestRunsThunkCreator} from "../../../redux/content/testruns/TestRunsReducer";
 
-const TestRunsComponent = React.memo((props) => {
+class TestRunsComponent extends React.Component {
 
-    const onSubmit = (data) => {
-        props.addNewTestRun(data.name, data.testsNumber)
-        props.resetForm('newTestRunForm')
+    componentDidMount() {
+        this.props.getTestRuns()
     }
 
-    return (<div>
-        {props.testRuns.map(testRun => <TestRunItem key={testRun.id} name={testRun.name}
-                                                    testsNumber={testRun.testsNumber}/>)}
-        <NewTestRunForm onSubmit={onSubmit}/>
-    </div>)
-})
+    onSubmit = (data) => {
+        this.props.addNewTestRun(data.name)
+        this.props.resetForm('newTestRunForm')
+    }
+
+    render() {
+        return (<div>
+            {this.props.testRuns.map(testRun => <TestRunItem key={testRun.id} name={testRun.name}/>)}
+            <NewTestRunForm onSubmit={this.onSubmit}/>
+        </div>)
+    }
+}
 
 const mapStateToProps = (state) => ({
     testRuns: getTestRunsSelector(state)
 })
 
 const mapDispatchToProps = ({
-    getTestRuns: GetTestRunsAC,
-    addNewTestRun: AddTestRunAC,
+    getTestRuns: getTestRunsThunkCreator,
+    addNewTestRun: addTestRunThunkCreator,
     resetForm: reset
 })
 

@@ -1,31 +1,41 @@
-import {ADD_TEST_RUN, GET_TEST_RUNS} from "./TestRunsActionCreator";
+import {ADD_TEST_RUN, AddTestRunAC, GET_TEST_RUNS, GetTestRunsAC} from "./TestRunsActionCreator";
+import TestRunsApi from "../../../api/testruns/TestRunsApi";
 
 const initialState = {
-    testRuns: [
-        {id: 1, name: 'First Test Run', testsNumber: 1},
-        {id: 2, name: 'Second Test Run', testsNumber: 1}
-    ]
+    testRuns: []
 }
 
-const getTestRuns = (state) => {
-    return {
-        ...state
-    }
-}
-
-const addTestRun = (state, data) => {
+const getTestRuns = (state, testRuns) => {
     return {
         ...state,
-        testRuns: [...state.testRuns, data]
+        testRuns: testRuns
     }
+}
+
+const addTestRun = (state, testRun) => {
+    return {
+        ...state,
+        testRuns: [...state.testRuns, testRun]
+    }
+}
+
+export const getTestRunsThunkCreator = () => async (dispatch) => {
+    let testRuns = TestRunsApi.getTestRuns()
+    debugger
+    dispatch(GetTestRunsAC(testRuns))
+}
+
+export const addTestRunThunkCreator = (name) => async (dispatch) => {
+    let testRun = TestRunsApi.addTestRun(name)
+    dispatch(AddTestRunAC(testRun))
 }
 
 const TestRunsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_TEST_RUNS:
-            return getTestRuns(state)
+            return getTestRuns(state, action.testRuns)
         case ADD_TEST_RUN:
-            return addTestRun(state, action.data)
+            return addTestRun(state, action.testRun)
         default:
             return state
     }

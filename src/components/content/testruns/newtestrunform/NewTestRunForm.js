@@ -7,9 +7,6 @@ const NewTestRunForm = (props) => {
             <Field name='name' placeholder='Enter test run name' component='input'/>
         </div>
         <div>
-            <Field name='testsNumber' placeholder='Enter tests number' component='input'/>
-        </div>
-        <div>
             <button>Create</button>
         </div>
     </form>)
