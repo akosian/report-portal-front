@@ -1,10 +1,12 @@
 import React from 'react';
+import Css from './TestRunsContainer.module.css'
 import {connect} from "react-redux";
-import {getTestRunsSelector} from "../../../redux/content/testruns/TestRunsSelectors";
+import {getTestRunsPageSizeSelector, getTestRunsSelector} from "../../../redux/content/testruns/TestRunsSelectors";
 import TestRunItem from "./testrunscontent/TestRunsItem";
 import {reset} from "redux-form";
-import NewTestRunForm from "./newtestrunform/NewTestRunForm";
 import {addTestRunThunkCreator, getTestRunsThunkCreator} from "../../../redux/content/testruns/TestRunsReducer";
+import Paginator from "../../common/Paginator";
+import {NavLink} from "react-router-dom";
 
 class TestRunsComponent extends React.Component {
 
@@ -12,21 +14,24 @@ class TestRunsComponent extends React.Component {
         this.props.getTestRuns()
     }
 
-    onSubmit = (data) => {
-        this.props.addNewTestRun(data.name)
-        this.props.resetForm('newTestRunForm')
-    }
-
     render() {
-        return (<div>
-            {this.props.testRuns.map(testRun => <TestRunItem key={testRun.id} name={testRun.name}/>)}
-            <NewTestRunForm onSubmit={this.onSubmit}/>
+        return (<div className={Css.item}>
+            <div>
+                <NavLink to={'/addtestrun'}>Add New Test Run</NavLink>
+            </div>
+            <br/>
+            <Paginator totalCount={this.props.testRuns.length} pageSize={this.props.pageSize}/>
+            <div>
+                {this.props.testRuns.map(testRun => <TestRunItem key={testRun.id} name={testRun.name}
+                                                                 tests={testRun.tests}/>)}
+            </div>
         </div>)
     }
 }
 
 const mapStateToProps = (state) => ({
-    testRuns: getTestRunsSelector(state)
+    testRuns: getTestRunsSelector(state),
+    pageSize: getTestRunsPageSizeSelector()
 })
 
 const mapDispatchToProps = ({

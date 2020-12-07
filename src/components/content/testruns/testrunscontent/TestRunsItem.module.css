@@ -1,0 +1,10 @@
+.content {
+    padding: 4px;
+}
+
+.item {
+    background: lightskyblue;
+    padding: 15px;
+    width: 600px;
+    height: 10px;
+}

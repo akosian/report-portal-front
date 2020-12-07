@@ -1,0 +1,7 @@
+.item {
+    padding: 10px;
+}
+
+.item table, th, td {
+    border: 1px solid black;
+}

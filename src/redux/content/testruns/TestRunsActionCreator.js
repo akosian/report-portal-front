@@ -6,9 +6,7 @@ export const GetTestRunsAC = (testRuns) => ({
     testRuns: testRuns
 })
 
-export const AddTestRunAC = (name) => ({
+export const AddTestRunAC = (testRun) => ({
     type: ADD_TEST_RUN,
-    testRun: {
-        name: name,
-    }
+    testRun: testRun
 })

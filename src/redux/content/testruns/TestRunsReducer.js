@@ -20,13 +20,12 @@ const addTestRun = (state, testRun) => {
 }
 
 export const getTestRunsThunkCreator = () => async (dispatch) => {
-    let testRuns = TestRunsApi.getTestRuns()
-    debugger
+    let testRuns = await TestRunsApi.getTestRuns()
     dispatch(GetTestRunsAC(testRuns))
 }
 
 export const addTestRunThunkCreator = (name) => async (dispatch) => {
-    let testRun = TestRunsApi.addTestRun(name)
+    let testRun = await TestRunsApi.addTestRun(name)
     dispatch(AddTestRunAC(testRun))
 }
 
